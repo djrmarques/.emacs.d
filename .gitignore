@@ -17,3 +17,4 @@ transient/history.el
 /config.org_archive
 /.#config.org
 **.eld
+/.lsp-session-v1

@@ -7,6 +7,40 @@
   )
 #+END_SRC
 
+* Evil Mode
+  #+begin_src emacs-lisp
+(use-package evil
+  :ensure t ;; install the evil package if not installed
+  :init ;; tweak evil's configuration before loading it
+  (setq evil-search-module 'evil-search)
+  (setq evil-ex-complete-emacs-commands nil)
+  (setq evil-vsplit-window-right t)
+  (setq evil-split-window-below t)
+  (setq evil-shift-round nil)
+  (setq evil-want-C-u-scroll t)
+  :config ;; tweak evil after loading it
+  (evil-mode)
+
+  ;; example how to map a command in normal mode (called 'normal state' in evil)
+  (define-key evil-normal-state-map (kbd ", w") 'evil-window-vsplit))
+
+  #+end_src
+
+* Tree Sitter 
+  #+begin_src emacs-lisp
+	    (use-package tree-sitter
+	      :ensure t 
+	      :init 
+	)
+	    (use-package tree-sitter-langs
+	      :ensure t 
+	      :init 
+	)
+
+       (global-tree-sitter-mode)
+       (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode) 
+
+  #+end_src
 * Theme
   #+BEGIN_SRC emacs-lisp
   (use-package zenburn-theme
@@ -17,20 +51,6 @@
 
   #+END_SRC
   
-* Editing
-** Yank Line
-  #+begin_src emacs-lisp
-  (defun yank-line ()
-  "Yanks current line"
-  (interactive)
-  (call-interactively 'move-end-of-line)
-  (call-interactively 'set-mark-command)
-  (call-interactively 'move-beginning-of-line)
-  (call-interactively 'kill-region)
-  (call-interactively 'yank)
-)
-  #+end_src
-
 * LSP mode
   #+BEGIN_SRC emacs-lisp
 (use-package lsp-mode
@@ -51,62 +71,18 @@
 
   #+END_SRC
 
-** Truncate Lines
-#+begin_src emacs-lisp
-  (toggle-truncate-lines)
-#+end_src
-* Hydra
-  #+BEGIN_SRC emacs-lisp
-	  (use-package hydra
-	  :ensure t
-	  )
-
-
-	(defun get-org-conf ()
-	  (interactive)
-	  (find-file org-config-file)
-	  )
-      
-	(defun get-init ()
-	  (interactive)
-	  (find-file init-file)
-	  )
-      
-	(defun get-stump ()
-	  (interactive)
-	  (find-file stumpwmconfig)
-	  )
-      
-
-	(defhydra hydra-files (global-map "<f2>")
-	  "Find Files"
-	  ("c" get-org-conf "Find org conf")
-	  ("i" get-init "Find org conf")
-	  ("k" kill-all-buffers "Kill al buffers")
-	  ("o" kill-other-buffers "Kill al buffers")
-	  ("s" get-stump "Stump config")
-    )
-
-  #+END_SRC
 * Fonts
   #+BEGIN_SRC emacs-lisp
   (set-frame-font "Hack-14" nil t)
   #+END_SRC
 
-* Undo Tree
-#+begin_src emacs-lisp
-(use-package undo-tree
-:ensure t
-:init
-(global-undo-tree-mode)
-)
-#+end_src
 * Messages buffer
   Hide Messages buffer
   #+BEGIN_SRC emacs-lisp
   (setq-default message-log-max nil)
   (kill-buffer "*Messages*")
   #+END_SRC
+
 * Buffers
 ** Kill all buffers
 #+BEGIN_SRC emacs-lisp
@@ -138,22 +114,8 @@
     (global-set-key (kbd "M-m") 'magit)
     )
   #+END_SRC
-* Rust
-** Install 
-  #+BEGIN_SRC emacs-lisp
-	(use-package rust-mode
-	    :ensure t
-	    :init
-	)
-  #+END_SRC
 
-** Variables
-   #+BEGIN_SRC emacs-lisp
-   (setq python-indent-offset 4)
-   (setq indent-tabs-mode nil)
-   #+END_SRC
-
-** Pretify entities
+* Pretify entities
 #+begin_src emacs-lisp
 (setq org-pretty-entities t)
 #+end_src
@@ -171,26 +133,7 @@
    (setq display-time-24h-format t)
    (display-time-mode 1)
    #+END_SRC
-* Company Mode
-  #+BEGIN_SRC emacs-lisp
-  (use-package company
-  :ensure t
-  :init 
-  (add-hook 'after-init-hook 'global-company-mode)
-)
-  #+END_SRC
-* Ansi-Term
-  #+BEGIN_SRC emacs-lisp
-    (setq explicit-shell-file-name "/bin/bash")
-    
-    (defvar my-term-shell "/bin/bash")
-    (defadvice ansi-term (before force-bash)
-      (interactive (list my-term-shell)))
-    (ad-activate 'ansi-term)
 
-    (global-set-key
-*  (kbd "<s-return>") 'ansi-term)
-  #+END_SRC
 * Dashboard
   #+BEGIN_SRC emacs-lisp
   (use-package dashboard
@@ -198,6 +141,7 @@
   :config
   (dashboard-setup-startup-hook))
   #+END_SRC
+
 * Programming general
 ** Rainbow Delimiters
   #+BEGIN_SRC emacs-lisp
@@ -219,13 +163,6 @@
 ** Linum Mode
    #+BEGIN_SRC emacs-lisp
      (add-hook 'prog-mode-hook 'linum-mode)
-   #+END_SRC
-** Flycheck
-   #+BEGIN_SRC emacs-lisp
-     (use-package flycheck
-       :ensure t
-       :init (global-flycheck-mode)
-     )
    #+END_SRC
 
 * Ivy
@@ -262,13 +199,7 @@
   )
   
   #+END_SRC
-** Add advice to remember the last used
-   #+begin_src emacs-lisp
-     (defun my-demo-function ()
-       (setq last-counsel-M-x-command (caar command-history)))
 
-     (advice-add #'counsel-M-x :after #'my-demo-function) 
-   #+end_src
 * Projectile
 #+begin_src emacs-lisp
 (use-package projectile
@@ -279,34 +210,4 @@
 
 #+end_src
 
-* Manual search
-  Function to search for manuals Eg
-** Generic function
-  #+begin_src emacs-lisp
-    (defun search-index-manual(man-name)
-    "Searches the index of a specific manual inserted as argument"
-    (interactive)
-    (info man-name)
-    (call-interactively 'Info-index)
-)
-  #+end_src
-  
-* Evil Mode
-  #+begin_src emacs-lisp
-(use-package evil
-  :ensure t ;; install the evil package if not installed
-  :init ;; tweak evil's configuration before loading it
-  (setq evil-search-module 'evil-search)
-  (setq evil-ex-complete-emacs-commands nil)
-  (setq evil-vsplit-window-right t)
-  (setq evil-split-window-below t)
-  (setq evil-shift-round nil)
-  (setq evil-want-C-u-scroll t)
-  :config ;; tweak evil after loading it
-  (evil-mode)
-
-  ;; example how to map a command in normal mode (called 'normal state' in evil)
-  (define-key evil-normal-state-map (kbd ", w") 'evil-window-vsplit))
-
-  #+end_src
   

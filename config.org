@@ -7,6 +7,19 @@
   )
 #+END_SRC
 
+* Backup files
+#+begin_src emacs-lisp
+    (setq backup-by-copying t   ; don't clobber symlinks
+	  version-control t     ; use versioned backups
+	  delete-old-versions t
+	  kept-new-versions 6
+	  kept-old-versions 2)
+
+  (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
+
+  (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+#+end_src
+
 * Evil Mode
   #+begin_src emacs-lisp
 (use-package evil
@@ -65,9 +78,9 @@
   :commands lsp)
 
 ;; optionally
-(use-package lsp-ui :init :commands lsp-ui-mode)
+(use-package lsp-ui :commands lsp-ui-mode)
 ;; if you are ivy user
-(use-package lsp-ivy :init :commands lsp-ivy-workspace-symbol)
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 
   #+END_SRC
 

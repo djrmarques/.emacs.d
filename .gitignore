@@ -18,3 +18,6 @@ transient/history.el
 /.#config.org
 **.eld
 /.lsp-session-v1
+/.cache/
+/eshell/
+/projects

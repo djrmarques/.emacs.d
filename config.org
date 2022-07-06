@@ -28,17 +28,17 @@
 
 * Tree Sitter 
   #+begin_src emacs-lisp
-	    (use-package tree-sitter
-	      :ensure t 
-	      :init 
-	)
-	    (use-package tree-sitter-langs
-	      :ensure t 
-	      :init 
-	)
+(use-package tree-sitter
+  :ensure t 
+  :init 
+)
+(use-package tree-sitter-langs
+  :ensure t 
+  :init 
+)
 
-       (global-tree-sitter-mode)
-       (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode) 
+(global-tree-sitter-mode)
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode) 
 
   #+end_src
 * Theme
@@ -65,9 +65,9 @@
   :commands lsp)
 
 ;; optionally
-(use-package lsp-ui :commands lsp-ui-mode)
+(use-package lsp-ui :init :commands lsp-ui-mode)
 ;; if you are ivy user
-(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package lsp-ivy :init :commands lsp-ivy-workspace-symbol)
 
   #+END_SRC
 
@@ -76,28 +76,6 @@
   (set-frame-font "Hack-14" nil t)
   #+END_SRC
 
-* Messages buffer
-  Hide Messages buffer
-  #+BEGIN_SRC emacs-lisp
-  (setq-default message-log-max nil)
-  (kill-buffer "*Messages*")
-  #+END_SRC
-
-* Buffers
-** Kill all buffers
-#+BEGIN_SRC emacs-lisp
-  (defun kill-all-buffers()
-  (interactive)
-  (mapc 'kill-buffer (buffer-list))
-  )
-#+END_SRC
-** Kill all buffers except current
-   #+BEGIN_SRC emacs-lisp
-(defun kill-other-buffers() 
-  (interactive)
-  (mapc 'kill-buffer (delq (current-buffer) (buffer-list)))
-)
-   #+END_SRC
 * Beacon mode
 #+BEGIN_SRC emacs-lisp
   (use-package beacon
@@ -107,27 +85,23 @@
 #+END_SRC
 
 * Magit
-  #+BEGIN_SRC emacs-lisp
-    (use-package magit
+#+BEGIN_SRC emacs-lisp
+(use-package magit
     :ensure t
     :config
     (global-set-key (kbd "M-m") 'magit)
-    )
-  #+END_SRC
-
-* Pretify entities
-#+begin_src emacs-lisp
-(setq org-pretty-entities t)
-#+end_src
+)
+#+END_SRC
 
 * Powerline 
-  #+BEGIN_SRC emacs-lisp
-      (use-package telephone-line
-      :ensure t
-      :init 
-      (telephone-line-mode t)
-      )
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package telephone-line
+    :ensure t
+    :init 
+    (telephone-line-mode t)
+  )
+#+END_SRC
+
 * Display Time
    #+BEGIN_SRC emacs-lisp
    (setq display-time-24h-format t)

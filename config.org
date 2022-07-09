@@ -86,8 +86,33 @@
 
 * Org settings
 General Org mode settings
-** Export 
+** Publish 
   #+BEGIN_SRC emacs-lisp
+    (setq org-publish-project-alist
+      '(
+	("org-posts"
+	 :base-directory "~/Projects/trying-to-code/"
+	 :base-extension "org"
+	 :publishing-directory "~/Projects/trying-to-code/public/"
+	 :recursive t
+	 :publishing-function org-html-publish-to-html
+	 :headline-levels 4             ; Just the default for this project.
+	 :auto-preamble t
+	 :auto-postamble nil
+	 )
+
+       ;; ... add all the components here (see below)...
+	("org-static"
+	 :base-directory "~/Projects/trying-to-code/static/"
+	 :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+	 :publishing-directory "~/Projects/trying-to-code/public/"
+	 :recursive t
+	 :publishing-function org-publish-attachment
+	 )
+
+	("blog" :components ("org-posts" "org-static"))
+
+      ))
   #+END_SRC
 
 * Fonts
@@ -143,9 +168,7 @@ General Org mode settings
   (dashboard-setup-startup-hook))
   #+end_src
 
-* Programming general
-General Programming enhancements
-** Rainbow Delimiters
+* Ivy
   #+BEGIN_SRC emacs-lisp
 
 	(use-package swiper
@@ -180,6 +203,18 @@ General Programming enhancements
 
 
   #+END_SRC
+
+* Programming general
+General Programming enhancements
+** Rainbow Delimiters
+   #+BEGIN_SRC emacs-lisp
+     (use-package rainbow-delimiters
+     :ensure t
+     :init
+     (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+     )
+   #+END_SRC
+
 
 ** Smart Parens
    #+BEGIN_SRC emacs-lisp

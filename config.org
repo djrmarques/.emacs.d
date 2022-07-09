@@ -106,43 +106,60 @@
 General Org mode settings
 ** Publish 
   #+BEGIN_SRC emacs-lisp
-    (setq org-publish-project-alist
-      '(
-	("org-posts"
-	 :base-directory "~/Projects/trying-to-code/"
-	 :base-extension "org"
-	 :publishing-directory "~/Projects/trying-to-code/public/"
-	 :recursive t
-	 :publishing-function org-html-publish-to-html
-	 :headline-levels 4             ; Just the default for this project.
-	 :auto-preamble nil
-	 :auto-postamble nil
-	 :table-of-contents nil
-	 :auto-sitemap t
-	 :section-numbers nil
-	 :sitemap-filename "sitemap.org"
-	 :sitemap-title "Trying to Code"
-	 :html-head "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>"
-	 :html-preamble "<nav>
-	      <a href=\"/\">&lt; Home</a>
-	    </nav>
-	    <div id=\"updated\">Updated: %C</div>"
 
-	:html-postamble "<footer> </footer>"
-	 )
+    (setq org-export-global-macros '(("timestamp" . "@@html:<span class=\"timestamp\">[$1]</span>@@")))
 
-       ;; ... add all the components here (see below)...
-	("org-static"
-	 :base-directory "~/Projects/trying-to-code/static/"
-	 :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-	 :publishing-directory "~/Projects/trying-to-code/public/"
-	 :recursive t
-	 :publishing-function org-publish-attachment
-	 )
+    (defun my/org-sitemap-date-entry-format (entry style project)
+      "Format ENTRY in org-publish PROJECT Sitemap format ENTRY ENTRY STYLE format that includes date."
+      (let ((filename (org-publish-find-title entry project)))
+	(if (= (length filename) 0)
+	    (format "*%s*" entry)
+	  (format "{{{timestamp(%s)}}} [[file:%s][%s]]"
+		  (format-time-string "%Y-%m-%d"
+				      (org-publish-find-date entry project))
+		  entry
+		  filename))))
 
-	("blog" :components ("org-posts" "org-static"))
 
-      ))
+	(setq org-publish-project-alist
+	  '(
+	    ("org-posts"
+	     :base-directory "~/Projects/trying-to-code/"
+	     :base-extension "org"
+	     :publishing-directory "~/Projects/trying-to-code/public/"
+	     :recursive t
+	     :publishing-function org-html-publish-to-html
+	     :headline-levels 4             ; Just the default for this project.
+	     :auto-preamble nil
+	     :auto-postamble nil
+	     :table-of-contents nil
+	     :auto-sitemap t
+	     :section-numbers nil
+	     :sitemap-filename "sitemap.org"
+	     :sitemap-title "Trying to Code"
+	     :sitemap-format-entry my/org-sitemap-date-entry-format
+	     :html-head "<link rel=\"stylesheet\" href=\"../style.css\" type=\"text/css\"/>"
+	     :html-preamble "<nav> <a href=\"/\">Home</a>  <a href=\"/\">About</a> </nav> "
+	     :html-postamble "<footer> <div id=\"updated\"> %C</div> </footer>"
+	     )
+
+	   ;; ... add all the components here (see below)...
+	    ("org-static"
+	     :base-directory "~/Projects/trying-to-code/static/"
+	     :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+	     :publishing-directory "~/Projects/trying-to-code/public/"
+	     :recursive t
+	     :publishing-function org-publish-attachment
+	     )
+
+	    ("blog" :components ("org-posts" "org-static"))
+    )
+    )
+
+
+
+
+
   #+END_SRC
 
 * Fonts

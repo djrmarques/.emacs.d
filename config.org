@@ -66,23 +66,41 @@
   
 * LSP mode
   #+BEGIN_SRC emacs-lisp
-    (use-package lsp-mode
-      :init
-      ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-      (setq lsp-keymap-prefix "C-c l")
-      :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-	     (python-mode . lsp)
-	     (css-mode . lsp)
-	     (rust-mode . lsp)
-	     (go-mode . lsp)
-	     ;; if you want which-key integration
-	     (lsp-mode . lsp-enable-which-key-integration))
-      :commands lsp)
+	(use-package lsp-mode
+	  :ensure t
+	  :init
+	  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+	  (setq lsp-keymap-prefix "C-c l")
+	  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+		 (python-mode . lsp)
+		 (css-mode . lsp)
+		 (rust-mode . lsp)
+		 (go-mode . lsp)
+		 ;; if you want which-key integration
+		 (lsp-mode . lsp-enable-which-key-integration))
+	  :commands lsp)
 
-    ;; optionall
-(use-package lsp-ivy :ensure t :commands lsp-ivy-workspace-symbol)
-(use-package lsp-ui :ensure t :commands lsp-ui-mode)
+	;; optionall
+    (use-package lsp-ivy :ensure t :commands lsp-ivy-workspace-symbol)
+    (use-package lsp-ui :ensure t :commands lsp-ui-mode)
   #+END_SRC
+
+* Python
+  #+BEGIN_SRC emacs-lisp
+    (use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp))))  ; or lsp-deferred
+
+  #+END_SRC
+
+* Rust
+  #+BEGIN_SRC emacs-lisp
+    (use-package rust-mode :ensure t )
+
+  #+END_SRC
+
 
 * Org settings
 General Org mode settings
@@ -173,14 +191,6 @@ General Org mode settings
   #+end_src
 
 * Ivy
-  #+begin_src emacs-lisp
-  (use-package dashboard
-  :ensure t
-  :config
-  (dashboard-setup-startup-hook))
-  #+end_src
-
-* Ivy
   #+BEGIN_SRC emacs-lisp
 
     (use-package swiper
@@ -224,7 +234,6 @@ This enhances the Ivy and company
     (use-package ivy-prescient :ensure t :init (ivy-prescient-mode))
     (use-package company-prescient :ensure t :init (company-prescient-mode))
    #+END_SRC
-
 
 * Programming general
 General Programming enhancements

@@ -171,38 +171,48 @@ General Org mode settings
 * Ivy
   #+BEGIN_SRC emacs-lisp
 
-	(use-package swiper
-	    :ensure t
-	)
+    (use-package swiper
+	:ensure t
+    )
 
-	(use-package counsel
-	    :ensure t
-	)
+    (use-package counsel
+	:ensure t
+    )
 
-	(use-package ivy
-	    :ensure t
-	    :config
-	    (ivy-mode 1)
-	    (setq ivy-use-virtual-buffers t)
-	    (setq enable-recursive-minibuffers t)
-	    ;; enable this if you want `swiper' to use it
-	    ;; (setq search-default-mode #'char-fold-to-regexp)
-	    (global-set-key (kbd "C-s") 'swiper)
-	    (global-set-key (kbd "C-c C-r") 'ivy-resume)
-	    (global-set-key (kbd "M-x") 'counsel-M-x)
-	    (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-	    (global-set-key (kbd "<f1> f") 'counsel-describe-function)
-	    (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-	    (global-set-key (kbd "<f1> l") 'counsel-find-library)
-	    (global-set-key (kbd "C-c g") 'counsel-git)
-	    (global-set-key (kbd "C-c j") 'counsel-git-grep)
-            (global-set-key (kbd "C-c l") 'counsel-fzf)
-	    (global-set-key (kbd "C-c k") 'counsel-yank-pop)
-	    (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
-	)
+    (use-package ivy
+	:ensure t
+	:config
+	(ivy-mode 1)
+	(setq ivy-use-virtual-buffers t)
+	(setq enable-recursive-minibuffers t)
+	;; enable this if you want `swiper' to use it
+	;; (setq search-default-mode #'char-fold-to-regexp)
+	(global-set-key (kbd "C-s") 'swiper)
+	(global-set-key (kbd "C-c C-r") 'ivy-resume)
+	(global-set-key (kbd "M-x") 'counsel-M-x)
+	(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+	(global-set-key (kbd "<f1> f") 'counsel-describe-function)
+	(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+	(global-set-key (kbd "<f1> l") 'counsel-find-library)
+	(global-set-key (kbd "C-c g") 'counsel-git)
+	(global-set-key (kbd "C-c j") 'counsel-git-grep)
+	(global-set-key (kbd "C-c l") 'counsel-fzf)
+	(global-set-key (kbd "C-c k") 'counsel-yank-pop)
+	(define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
+    )
 
 
   #+END_SRC
+
+* Prescient
+This enhances the Ivy and company
+   #+BEGIN_SRC emacs-lisp
+    ;; Add Prescient Mode
+    (use-package  prescient :ensure t)
+    (use-package ivy-prescient :ensure t :init (ivy-prescient-mode))
+    (use-package company-prescient :ensure t :init (company-prescient-mode))
+   #+END_SRC
+
 
 * Programming general
 General Programming enhancements

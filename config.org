@@ -201,10 +201,13 @@ General Org mode settings
 
 * Dashboard
   #+begin_src emacs-lisp
-  (use-package dashboard
-  :ensure t
-  :config
-  (dashboard-setup-startup-hook))
+      (use-package dashboard
+      :ensure t
+      :init
+      (dashboard-setup-startup-hook)
+      :config
+	(setq dashboard-items '((recents  . 10) (projects . 5) )) 
+    )
   #+end_src
 
 * Ivy

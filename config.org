@@ -1,3 +1,5 @@
+#+STARTUP: overview
+
 * Which Key
 #+BEGIN_SRC emacs-lisp
 (use-package which-key
@@ -75,7 +77,9 @@
 		 (python-mode . lsp)
 		 (css-mode . lsp)
 		 (rust-mode . lsp)
+		 (Dockerfile-mode . lsp)
 		 (go-mode . lsp)
+		 (typescript-mode . lsp)
 		 ;; if you want which-key integration
 		 (lsp-mode . lsp-enable-which-key-integration))
 	  :commands lsp)
@@ -85,6 +89,21 @@
     (use-package lsp-ui :ensure t :commands lsp-ui-mode)
   #+END_SRC
 
+* Dockerfile Mode
+  #+BEGIN_SRC emacs-lisp
+    (use-package dockerfile-mode 
+      :ensure t
+      :init
+    (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+    )
+  #+END_SRC
+
+* Flycheck
+  #+BEGIN_SRC emacs-lisp
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
+  #+END_SRC
 * Python
   #+BEGIN_SRC emacs-lisp
     (use-package lsp-pyright
@@ -101,6 +120,11 @@
 
   #+END_SRC
 
+* Web stuff
+  #+BEGIN_SRC emacs-lisp
+    (use-package typescript-mode :ensure t )
+
+  #+END_SRC
 
 * Org settings
 General Org mode settings

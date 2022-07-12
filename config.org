@@ -1,5 +1,19 @@
 #+STARTUP: overview
 
+* General setup
+#+begin_src emacs-lisp
+
+  (setq inhibit-startup-message t)
+  (setq initial-scratch-message nil)
+
+(setq ring-bell-function 'ignore)
+
+(global-prettify-symbols-mode t) 
+
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(custom-set-variables
+#+end_src
 * Which Key
 #+BEGIN_SRC emacs-lisp
 (use-package which-key
@@ -24,20 +38,21 @@
 
 * Evil Mode
   #+begin_src emacs-lisp
-(use-package evil
-  :ensure t ;; install the evil package if not installed
-  :init ;; tweak evil's configuration before loading it
-  (setq evil-search-module 'evil-search)
-  (setq evil-ex-complete-emacs-commands nil)
-  (setq evil-vsplit-window-right t)
-  (setq evil-split-window-below t)
-  (setq evil-shift-round nil)
-  (setq evil-want-C-u-scroll t)
-  :config ;; tweak evil after loading it
-  (evil-mode)
+	(use-package evil
+	  :ensure t ;; install the evil package if not installed
+	  :init ;; tweak evil's configuration before loading it
+	  (setq evil-search-module 'evil-search)
+	  (setq evil-ex-complete-emacs-commands nil)
+	  (setq evil-vsplit-window-right t)
+	  (setq evil-split-window-below t)
+	  (setq evil-shift-round nil)
+	  (setq evil-want-C-u-scroll t)
+	  :config ;; tweak evil after loading it
+          (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
+	  (evil-mode)
 
-  ;; example how to map a command in normal mode (called 'normal state' in evil)
-  (define-key evil-normal-state-map (kbd ", w") 'evil-window-vsplit))
+	  ;; example how to map a command in normal mode (called 'normal state' in evil)
+	  (define-key evil-normal-state-map (kbd ", w") 'evil-window-vsplit))
 
   #+end_src
 
@@ -185,6 +200,10 @@ General Org mode settings
 
 
   #+END_SRC
+** Agenda
+#+begin_src emacs-lisp
+  (add-to-list 'org-agenda-files "~/todo.org")
+#+end_src
 
 * Fonts
   #+BEGIN_SRC emacs-lisp

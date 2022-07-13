@@ -344,7 +344,8 @@ Manage projects
       (projectile-mode +1)
       :config 
       (define-key evil-normal-state-map (kbd ", p") 'projectile-command-map)
-  )
+      (define-key evil-normal-state-map (kbd ", r") 'projectile-recentf)
+ )
 
 #+end_src
 

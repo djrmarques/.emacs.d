@@ -1,6 +1,7 @@
 #+STARTUP: overview
 
 * General setup
+** General config
 #+begin_src emacs-lisp
 
   (setq org-conf-path "~/.emacs.d/config.org")
@@ -18,10 +19,16 @@
   (setq ring-bell-function 'ignore)
 
   (global-prettify-symbols-mode t) 
+  (global-hl-line-mode) 
 
   (tool-bar-mode -1)
   (menu-bar-mode -1)
 #+end_src
+** Kill all buffers
+#+begin_src emacs-lisp
+  (defun kill-all-buffers (interactive) (mapcar 'kill-buffer (buffer-list)))
+#+end_src
+
 * Which Key
 #+BEGIN_SRC emacs-lisp
 (use-package which-key
@@ -294,7 +301,8 @@ General Org mode settings
 	(global-set-key (kbd "<f1> l") 'counsel-find-library)
 	(global-set-key (kbd "C-c g") 'counsel-git)
 	(global-set-key (kbd "C-c j") 'counsel-git-grep)
-	(global-set-key (kbd "C-c l") 'counsel-fzf)
+	;;(global-set-key (kbd "C-c l") 'counsel-fzf)
+        (define-key evil-normal-state-map (kbd ", l") 'counsel-fzf)
 	(global-set-key (kbd "C-c k") 'counsel-yank-pop)
 	(define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
     )
@@ -324,11 +332,11 @@ General Programming enhancements
 
 ** Smart Parens
    #+BEGIN_SRC emacs-lisp
-   (use-package smartparens
-   :ensure t
-   :init
-   (add-hook 'prog-mode-hook #'smartparens-mode)
-   )
+     (use-package smartparens
+     :ensure t
+     :init
+     (add-hook 'prog-mode-hook #'smartparens-mode)
+     )
    #+END_SRC
 ** Linum Mode
    #+BEGIN_SRC emacs-lisp
@@ -338,14 +346,15 @@ General Programming enhancements
 * Projectile
 Manage projects
 #+begin_src emacs-lisp
-      (use-package projectile
-      :ensure t
-      :init 
-      (projectile-mode +1)
-      :config 
-      (define-key evil-normal-state-map (kbd ", p") 'projectile-command-map)
-      (define-key evil-normal-state-map (kbd ", r") 'projectile-recentf)
- )
+       (use-package projectile
+       :ensure t
+       :init 
+       (projectile-mode +1)
+       :config 
+       (define-key evil-normal-state-map (kbd ", p") 'projectile-command-map)
+       (define-key evil-normal-state-map (kbd ", f") 'projectile-recentf)
+       (define-key evil-normal-state-map (kbd ", r") 'projectile-run-shell-command-in-root)
+  )
 
 #+end_src
 

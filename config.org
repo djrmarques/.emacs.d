@@ -228,6 +228,9 @@ General Org mode settings
   (global-set-key (kbd "C-'") 'org-cycle-agenda-files)
 
 #+end_src
+** TODO Pomodoro Timer
+#+begin_src emacs-lisp
+#+end_src
 
 * Fonts
   #+BEGIN_SRC emacs-lisp
@@ -244,11 +247,11 @@ General Org mode settings
 
 * Magit
 #+BEGIN_SRC emacs-lisp
-(use-package magit
-    :ensure t
-    :config
-    (global-set-key (kbd "M-m") 'magit)
-)
+  (use-package magit
+      :ensure t
+      :config
+      (define-key evil-normal-state-map (kbd ", m") 'magit-status)
+  )
 #+END_SRC
 
 * Powerline 
@@ -411,12 +414,12 @@ Better M-X
 
 * Custom Code
 
-** Kill all buffers
+** TODO Kill all buffers
 #+begin_src emacs-lisp
   (defun kill-all-buffers (interactive) (mapcar 'kill-buffer (buffer-list)))
 #+end_src
 
-** Parenthesis
+** TODO Parenthesis
 These are my commands to handle parenthesis. I decided to create a few custom commands for this,
 although I am pretty sure this funcitonality already exists in some library like smart-parens.
 #+begin_src emacs-lisp
@@ -434,12 +437,12 @@ although I am pretty sure this funcitonality already exists in some library like
     )
 #+end_src
 
-** Makefile 
+** TODO Makefile 
 Run Makefile commands and paste the result into a buffer
 #+BEGIN_SRC emacs-lisp
 #+END_SRC
 
-** Poetry 
+** TODO Poetry 
 Code to enable and manage Poetry environemtts in Python
 #+BEGIN_SRC emacs-lisp
   (projectile-project-root)

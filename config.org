@@ -285,7 +285,9 @@ General Org mode settings
       "Select when of the posts on my blog"
       (interactive)
       (let ((f (select-from-list (get-org-files-dir base-blog-directory-posts))))
-	(let ((f_path (expand-file-name f base-blog-directory-posts)))
+	(let (
+	      (f_path (file-name-with-extension (expand-file-name f base-blog-directory-posts) "org" ))
+	      )
 	  (find-file f_path)
 	  )
 	)

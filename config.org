@@ -165,7 +165,12 @@
 * Org settings
 General Org mode settings
 ** Publish 
+*** Settings
   #+BEGIN_SRC emacs-lisp
+
+    (setq base-blog-directory "~/Projects/trying-to-code/")
+    (setq base-blog-directory-static (expand-file-name "static" base-blog-directory))
+    (setq base-blog-directory-public (expand-file-name "public" base-blog-directory))
 
     (setq org-export-global-macros '(("timestamp" . "@@html:<span class=\"timestamp\">[$1]</span>@@")))
 
@@ -175,8 +180,7 @@ General Org mode settings
 	(if (= (length filename) 0)
 	    (format "*%s*" entry)
 	  (format "{{{timestamp(%s)}}} [[file:%s][%s]]"
-		  (format-time-string "%Y-%m-%d"
-				      (org-publish-find-date entry project))
+		  (format-time-string "%Y-%m-%d" (org-publish-find-date entry project))
 		  entry
 		  filename))))
 
@@ -184,9 +188,9 @@ General Org mode settings
 	(setq org-publish-project-alist
 	  '(
 	    ("org-posts"
-	     :base-directory "~/Projects/trying-to-code/"
+	     :base-directory base-blog-directory
 	     :base-extension "org"
-	     :publishing-directory "~/Projects/trying-to-code/public/"
+	     :publishing-directory base-blog-directory-public 
 	     :recursive t
 	     :publishing-function org-html-publish-to-html
 	     :headline-levels 4             ; Just the default for this project.
@@ -205,9 +209,9 @@ General Org mode settings
 
 	   ;; ... add all the components here (see below)...
 	    ("org-static"
-	     :base-directory "~/Projects/trying-to-code/static/"
+	     :base-directory base-blog-directory-static
 	     :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-	     :publishing-directory "~/Projects/trying-to-code/public/"
+	     :publishing-directory base-blog-directory-public
 	     :recursive t
 	     :publishing-function org-publish-attachment
 	     )
@@ -219,8 +223,13 @@ General Org mode settings
 
 
 
-
   #+END_SRC
+*** Create new post
+*** Open current posts
+#+begin_src emacs-lisp
+  ;; List all posts on the folder
+  (setq )
+#+end_src
 ** Agenda
 #+begin_src emacs-lisp
   (setq default-agenda "~/todo.org")

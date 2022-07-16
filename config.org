@@ -24,6 +24,53 @@
   (tool-bar-mode -1)
   (menu-bar-mode -1)
 #+end_src
+
+* Custom Code
+Pieces of custom code that I wrote
+
+** TODO Kill all buffers
+#+begin_src emacs-lisp
+  (defun kill-all-buffers (interactive) (mapcar 'kill-buffer (buffer-list)))
+#+end_src
+
+** TODO Parenthesis
+These are my commands to handle parenthesis. I decided to create a few custom commands for this,
+although I am pretty sure this funcitonality already exists in some library like smart-parens.
+#+begin_src emacs-lisp
+  (setq rparens '(")" "]" "}"))
+  (setq lparens '("(" "[" "{"))
+
+
+  (defun move-to-end-word ()
+    (interactive)
+    )
+
+  (defun expand-parens ()
+    (interactive)
+    (save-excursion ())
+    )
+#+end_src
+
+** Select from list
+#+begin_src emacs-lisp
+  (defun select-from-list (l)
+  "Uses the minibuffer to select an element of a list"
+  (completing-read "Select: " l)
+  )
+
+#+end_src
+
+** TODO Makefile 
+Run Makefile commands and paste the result into a buffer
+#+BEGIN_SRC emacs-lisp
+#+END_SRC
+
+** TODO Poetry 
+Code to enable and manage Poetry environemtts in Python
+#+BEGIN_SRC emacs-lisp
+  (projectile-project-root)
+#+END_SRC
+
 * Which Key
 #+BEGIN_SRC emacs-lisp
 (use-package which-key
@@ -165,12 +212,15 @@
 * Org settings
 General Org mode settings
 ** Publish 
+*** Variables
+#+begin_src emacs-lisp
+    (setq base-blog-directory "~/Projects/trying-to-code/")
+    (setq base-blog-directory-static (expand-file-name "static/" base-blog-directory))
+    (setq base-blog-directory-public (expand-file-name "public/" base-blog-directory))
+    (setq base-blog-directory-posts (expand-file-name "Posts/" base-blog-directory))
+#+end_src
 *** Settings
   #+BEGIN_SRC emacs-lisp
-
-    (setq base-blog-directory "~/Projects/trying-to-code/")
-    (setq base-blog-directory-static (expand-file-name "static" base-blog-directory))
-    (setq base-blog-directory-public (expand-file-name "public" base-blog-directory))
 
     (setq org-export-global-macros '(("timestamp" . "@@html:<span class=\"timestamp\">[$1]</span>@@")))
 
@@ -224,11 +274,24 @@ General Org mode settings
 
 
   #+END_SRC
-*** Create new post
-*** Open current posts
+*** Open post
 #+begin_src emacs-lisp
-  ;; List all posts on the folder
-  (setq )
+     (defun get-org-files-dir (folder)
+      "Return a list of all org files in a directory"
+      (-filter (lambda (s) (string-match "org" s)) (directory-files folder))
+     )
+
+    (defun open-blog ()
+      "Select when of the posts on my blog"
+      (interactive)
+      (let ((f (select-from-list (get-org-files-dir base-blog-directory-posts))))
+	(let ((f_path (expand-file-name f base-blog-directory-posts)))
+	  (find-file f_path)
+	  )
+	)
+     )
+
+  (define-key evil-normal-state-map (kbd ", b") 'open-blog)
 #+end_src
 ** Agenda
 #+begin_src emacs-lisp
@@ -326,7 +389,7 @@ General Org mode settings
 
   #+END_SRC
 
-* Prescient
+ Prescient
 This enhances the Ivy and company
    #+BEGIN_SRC emacs-lisp
     ;; Add Prescient Mode
@@ -420,40 +483,4 @@ Better M-X
   (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
   )
 #+end_src
-
-* Custom Code
-
-** TODO Kill all buffers
-#+begin_src emacs-lisp
-  (defun kill-all-buffers (interactive) (mapcar 'kill-buffer (buffer-list)))
-#+end_src
-
-** TODO Parenthesis
-These are my commands to handle parenthesis. I decided to create a few custom commands for this,
-although I am pretty sure this funcitonality already exists in some library like smart-parens.
-#+begin_src emacs-lisp
-  (setq rparens '(")" "]" "}"))
-  (setq lparens '("(" "[" "{"))
-
-
-  (defun move-to-end-word ()
-    (interactive)
-    )
-
-  (defun expand-parens ()
-    (interactive)
-    (save-excursion ())
-    )
-#+end_src
-
-** TODO Makefile 
-Run Makefile commands and paste the result into a buffer
-#+BEGIN_SRC emacs-lisp
-#+END_SRC
-
-** TODO Poetry 
-Code to enable and manage Poetry environemtts in Python
-#+BEGIN_SRC emacs-lisp
-  (projectile-project-root)
-#+END_SRC
 

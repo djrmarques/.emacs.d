@@ -71,6 +71,15 @@ Code to enable and manage Poetry environemtts in Python
   (projectile-project-root)
 #+END_SRC
 
+** Delete current buffer file
+#+begin_src emacs-lisp
+  (defun delete-current-buffer-file ()
+    "Delete the current file on the current buffer"
+    (interactive)
+    (delete-file (buffer-file-name))
+  )
+#+end_src
+
 * Which Key
 #+BEGIN_SRC emacs-lisp
 (use-package which-key

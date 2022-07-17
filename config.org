@@ -293,11 +293,16 @@ General Org mode settings
     (defun open-blog ()
       "Select when of the posts on my blog"
       (interactive)
-      (let ((f (select-from-list (get-org-files-dir base-blog-directory-posts))))
+      (let ((f  (file-name-with-extension (select-from-list (get-org-files-dir base-blog-directory-posts))  "org" )))
 	(let (
-	      (f_path (file-name-with-extension (expand-file-name f base-blog-directory-posts) "org" ))
+	      (f_path  (expand-file-name f base-blog-directory-posts))
 	      )
 	  (find-file f_path)
+
+	  ;; Apend the title to the file
+	  (with-current-buffer f (insert (format "#+TITLE: %s\n" (file-name-base f)) ))
+	  (with-current-buffer f (insert "#+DESCRIPTION:" ))
+
 	  )
 	)
      )
@@ -313,6 +318,15 @@ General Org mode settings
 #+end_src
 ** TODO Pomodoro Timer
 #+begin_src emacs-lisp
+  (defvar current-pomodoro-task "The name of the task for the current pomodoro")
+  (defvar work-lenght-min "Number of minutes for the work length")
+  (defvar interval-lenght-min "Number of minutes for the interval length")
+  (defvar next-session-start "Number of minutes for the interval length")
+
+  (defun time-to-end-session () )
+  (defun start-pomodoro () )
+  (defun end-pomodoro () )
+
 #+end_src
 
 * Fonts

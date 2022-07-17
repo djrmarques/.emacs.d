@@ -300,6 +300,7 @@ General Org mode settings
 	  (find-file f_path)
 
 	  ;; Apend the title to the file
+	  (with-current-buffer f (insert "#+DRAFT:" ))
 	  (with-current-buffer f (insert (format "#+TITLE: %s\n" (file-name-base f)) ))
 	  (with-current-buffer f (insert "#+DESCRIPTION:" ))
 

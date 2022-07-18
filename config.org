@@ -333,6 +333,7 @@ This is my org-pomodoro setup. It is really just a hook in the org-clock-in comm
     (add-hook 'org-clock-in-hook (lambda () (run-at-time pomodoro-work-length-sec nil 'play-bell-end-clock)))
 
 
+  (define-key evil-normal-state-map (kbd ", i") 'org-clock-in)
   ;; (defun my-org-clock-select-task ()
   ;;   "Just to run org-clock-select-task interactively"
   ;;   (interactive)

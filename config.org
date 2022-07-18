@@ -28,7 +28,7 @@
 * Custom Code
 Pieces of custom code that I wrote
 
-** TODO Kill all buffers
+** Kill all buffers
 #+begin_src emacs-lisp
   (defun kill-all-buffers (interactive) (mapcar 'kill-buffer (buffer-list)))
 #+end_src
@@ -168,7 +168,7 @@ Code to enable and manage Poetry environemtts in Python
 		 (python-mode . lsp)
 		 (css-mode . lsp)
 		 (rust-mode . lsp)
-		 (Dockerfile-mode . lsp)
+		 (dockerfile-mode . lsp)
 		 (go-mode . lsp)
 		 (typescript-mode . lsp)
 		 ;; if you want which-key integration
@@ -321,26 +321,27 @@ This is my org-pomodoro setup. It is really just a hook in the org-clock-in comm
 
 #+begin_src emacs-lisp
     (defvar pomodoro-work-length-min 20 "number of minutes for the work length")
-    (defvar pomodoro-work-length-sec (* 60 pomodoro-work-length-min) "number of secs for the work length")
+    (defvar pomodoro-work-length-sec (* 1 10) "number of secs for the work length")
+    (defvar pomodoro-current-timer-process nil "The current timer process for the pomodoro")
 
     (defun play-bell-end-clock ()
-      "Plays a bell sound and closes the current timer"
-      (start-process "Pomodoro Bell" nil "afplay" (expand-file-name "~/.emacs.d/pomodoro.wav"))
-      (org-clock-out)
-      )
+    "Plays a bell sound and closes the current timer"
+       (start-process "Pomodoro Bell" nil "afplay" (expand-file-name "~/.emacs.d/pomodoro.wav"))
+       (cancel-timer pomodoro-current-timer-process)
+       (setq pomodoro-current-timer-process nil)
+    )
 
     ;; Setup the org-clock-in hook
-    (add-hook 'org-clock-in-hook (lambda () (run-at-time pomodoro-work-length-sec nil 'play-bell-end-clock)))
+    (add-hook 'org-clock-in-hook (lambda () (setq pomodoro-current-timer-process (run-at-time pomodoro-work-length-sec nil 'org-clock-out))))
+    (add-hook 'org-clock-out-hook 'play-bell-end-clock)
+
+    (define-key evil-normal-state-map (kbd ", i") 'org-clock-in)
+
+    (defun my-select-task () (interactive) (org-clock-select-task))
+
+    (define-key evil-normal-state-map (kbd ", s") 'my-select-task)
 
 
-  (define-key evil-normal-state-map (kbd ", i") 'org-clock-in)
-  ;; (defun my-org-clock-select-task ()
-  ;;   "Just to run org-clock-select-task interactively"
-  ;;   (interactive)
-  ;;   (org-clock-ee))
-
-
-  ;;   (define-key evil-normal-state-map (kbd ", t") 'my-org-clock-select-task)
 #+end_src
 
 * Fonts
@@ -492,8 +493,6 @@ Mostly to use with company mode
 #+begin_src emacs-lisp
   (use-package yasnippet
   :ensure t
-  :init 
-  (add-hook 'after-init-hook 'global-company-mode)
   :config
   (yas-reload-all)
   (add-hook 'prog-mode-hook #'yas-minor-mode)
@@ -502,7 +501,7 @@ Mostly to use with company mode
 #+end_src
 
 * AMX 
-Better M-X
+Better M-X.
 #+begin_src emacs-lisp
   (use-package amx
   :ensure t

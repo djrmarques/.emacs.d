@@ -121,6 +121,7 @@ Code to enable and manage Poetry environemtts in Python
 	  ;; example how to map a command in normal mode (called 'normal state' in evil)
 	  (define-key evil-normal-state-map (kbd ", w") 'evil-window-vsplit)
 	  (define-key evil-normal-state-map (kbd ", c") 'open-org-config)
+	  (define-key evil-normal-state-map (kbd ", d") 'dired)
 	  (define-key evil-normal-state-map (kbd ", a") 'move-last-buffer)
 	  (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
 	   )

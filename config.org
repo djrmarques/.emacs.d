@@ -171,6 +171,7 @@ Code to enable and manage Poetry environemtts in Python
 		 (dockerfile-mode . lsp)
 		 (go-mode . lsp)
 		 (typescript-mode . lsp)
+		 (yaml-mode . lsp)
 		 ;; if you want which-key integration
 		 (lsp-mode . lsp-enable-which-key-integration))
 	  :commands lsp)
@@ -204,7 +205,17 @@ Code to enable and manage Poetry environemtts in Python
                           (lsp))))  ; or lsp-deferred
 
   #+END_SRC
+* Markdown
+#+begin_src emacs-lisp
+  (use-package yaml-mode
+    :ensure t
+    :config 
+    (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)) 
+    (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)) 
+    )
 
+
+#+end_src
 * Rust
   #+BEGIN_SRC emacs-lisp
     (use-package rust-mode :ensure t )
@@ -321,7 +332,7 @@ This is my org-pomodoro setup. It is really just a hook in the org-clock-in comm
 
 #+begin_src emacs-lisp
     (defvar pomodoro-work-length-min 20 "number of minutes for the work length")
-    (defvar pomodoro-work-length-sec (* 1 10) "number of secs for the work length")
+    (defvar pomodoro-work-length-sec (* 60 pomodoro-work-length-min) "number of secs for the work length")
     (defvar pomodoro-current-timer-process nil "The current timer process for the pomodoro")
 
     (defun play-bell-end-clock ()
@@ -336,9 +347,9 @@ This is my org-pomodoro setup. It is really just a hook in the org-clock-in comm
     (add-hook 'org-clock-out-hook 'play-bell-end-clock)
 
     (define-key evil-normal-state-map (kbd ", i") 'org-clock-in)
+    (define-key evil-normal-state-map (kbd ", o") 'org-clock-out)
 
     (defun my-select-task () (interactive) (org-clock-select-task))
-
     (define-key evil-normal-state-map (kbd ", s") 'my-select-task)
 
 

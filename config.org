@@ -24,6 +24,14 @@
   (tool-bar-mode -1)
   (menu-bar-mode -1)
 #+end_src
+** Term
+#+begin_src emacs-lisp
+    (defun my-term ()
+      "Just to prevent ansi-term to ask for me a shell everytime"
+      (interactive)
+      (ansi-term "/bin/zsh")
+  )
+#+end_src
 
 * Custom Code
 Pieces of custom code that I wrote
@@ -485,6 +493,7 @@ Manage projects
        (define-key evil-normal-state-map (kbd ", p") 'projectile-command-map)
        (define-key evil-normal-state-map (kbd ", f") 'projectile-recentf)
        (define-key evil-normal-state-map (kbd ", r") 'projectile-run-shell-command-in-root)
+       (define-key evil-normal-state-map (kbd ", <return>") 'my-term)
   )
 
 #+end_src

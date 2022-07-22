@@ -112,33 +112,33 @@ Code to enable and manage Poetry environemtts in Python
 * Evil Mode
   #+begin_src emacs-lisp
 
-	(use-package evil
-	  :ensure t ;; install the evil package if not installed
-	  :init ;; tweak evil's configuration before loading it
-	  (setq evil-search-module 'evil-search)
-	  (setq evil-ex-complete-emacs-commands nil)
-	  (setq evil-vsplit-window-right t)
-	  (setq evil-split-window-below t)
-	  (setq evil-shift-round nil)
-	  (setq evil-want-c-u-scroll t)
-	  :init
-	  (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
-	  (setq evil-want-keybinding nil)
-	  :config ;; tweak evil after loading it
-	  (evil-mode)
-	  ;; example how to map a command in normal mode (called 'normal state' in evil)
-	  (define-key evil-normal-state-map (kbd ", w") 'evil-window-vsplit)
-	  (define-key evil-normal-state-map (kbd ", c") 'open-org-config)
-	  (define-key evil-normal-state-map (kbd ", d") 'dired)
-	  (define-key evil-normal-state-map (kbd ", a") 'move-last-buffer)
-	  (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
-	   )
+    (use-package evil
+      :ensure t ;; install the evil package if not installed
+      :init ;; tweak evil's configuration before loading it
+      (setq evil-search-module 'evil-search)
+      (setq evil-ex-complete-emacs-commands nil)
+      (setq evil-vsplit-window-right t)
+      (setq evil-split-window-below t)
+      (setq evil-shift-round nil)
+      (setq evil-want-c-u-scroll t)
+      (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
+      (setq evil-want-keybinding nil)
+      (setq evil-want-minibuffer t)
+      :config ;; tweak evil after loading it
+      (evil-mode)
+      ;; example how to map a command in normal mode (called 'normal state' in evil)
+      (define-key evil-normal-state-map (kbd ", w") 'evil-window-vsplit)
+      (define-key evil-normal-state-map (kbd ", c") 'open-org-config)
+      (define-key evil-normal-state-map (kbd ", d") 'dired)
+      (define-key evil-normal-state-map (kbd ", a") 'move-last-buffer)
+      (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
+       )
 
-	    (use-package evil-collection
-	      :ensure t ;; install the evil package if not installed
-	      :init ;; tweak evil's configuration before loading it
-	      (evil-collection-init)
-    )
+	(use-package evil-collection
+	  :ensure t ;; install the evil package if not installed
+	  :custom (evil-collection-setup-minibuffer t)
+	  :init ;; tweak evil's configuration before loading it
+	  (evil-collection-init))
   #+end_src
 
 * Tree Sitter 
@@ -426,6 +426,7 @@ This is my org-pomodoro setup. It is really just a hook in the org-clock-in comm
     (use-package ivy
 	:ensure t
 	:config
+        (ivy-toggle-fuzzy)
 	(ivy-mode 1)
 	(setq ivy-use-virtual-buffers t)
 	(setq enable-recursive-minibuffers t)
@@ -441,10 +442,11 @@ This is my org-pomodoro setup. It is really just a hook in the org-clock-in comm
 	(global-set-key (kbd "C-c g") 'counsel-git)
 	(global-set-key (kbd "C-c j") 'counsel-git-grep)
 	;;(global-set-key (kbd "C-c l") 'counsel-fzf)
-        (define-key evil-normal-state-map (kbd ", l") 'counsel-fzf)
+	(define-key evil-normal-state-map (kbd ", l") 'counsel-fzf)
 	(global-set-key (kbd "C-c k") 'counsel-yank-pop)
 	(define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
     )
+
 
 
   #+END_SRC
